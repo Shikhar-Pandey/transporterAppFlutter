@@ -6,7 +6,6 @@ import 'dart:convert';
 import 'package:liveasy/models/truckModel.dart';
 import 'package:liveasy/providerClass/providerData.dart';
 import 'package:provider/provider.dart';
-import 'getDriverDetailsFromDriverApi.dart';
 import 'package:flutter_config/flutter_config.dart';
 
 Future<List> getTruckDetailsFromTruckApi(BuildContext context) async {

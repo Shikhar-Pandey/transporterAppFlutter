@@ -1,16 +1,21 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/fontSize.dart';
 import 'package:liveasy/constants/fontWeights.dart';
 import 'package:liveasy/constants/radius.dart';
 import 'package:liveasy/constants/spaces.dart';
+import 'package:liveasy/controller/transporterIdController.dart';
+import 'package:liveasy/functions/loadOnGoingDeliveredData.dart';
+import 'package:liveasy/providerClass/providerData.dart';
 import 'package:liveasy/widgets/buttons/addButton.dart';
 import 'package:liveasy/widgets/buttons/cancelButton.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 // ignore: import_of_legacy_library_into_null_safe
 import 'package:contact_picker/contact_picker.dart';
+import 'package:provider/provider.dart';
 
 // ignore: must_be_immutable
 class AddDriverAlertDialog extends StatefulWidget {
@@ -23,16 +28,18 @@ class AddDriverAlertDialog extends StatefulWidget {
 }
 
 class _AddDriverAlertDialogState extends State<AddDriverAlertDialog> {
-  TextEditingController name = TextEditingController();
-  TextEditingController number = TextEditingController();
+  // TextEditingController name = TextEditingController();
+  // TextEditingController number = TextEditingController();
   final ContactPicker _contactPicker = new ContactPicker();
   Contact? _contact;
-  String? contactName;
-  String? contactNumber;
+  String? contactName = "";
+  String? contactNumber = "";
   String displayContact = "";
+  TransporterIdController tIdController = Get.find<TransporterIdController>();
 
   @override
   Widget build(BuildContext context) {
+    var providerData = Provider.of<ProviderData>(context, listen: false);
     return AlertDialog(
       title: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -60,19 +67,20 @@ class _AddDriverAlertDialogState extends State<AddDriverAlertDialog> {
                 children: [
                   Expanded(
                     child: TextField(
-                      controller: name,
-                      decoration: InputDecoration(
-                        hintText: contactName != "" ? contactName : "Type here",
-                        hintStyle: TextStyle(
-                            color: black, fontWeight: mediumBoldWeight),
-                        border: InputBorder.none,
-                      ),
-                    ),
+                        // controller: name,
+                        decoration: InputDecoration(
+                          hintText:
+                              contactName != "" ? contactName : "Type here",
+                          hintStyle: TextStyle(
+                              color: black, fontWeight: mediumBoldWeight),
+                          border: InputBorder.none,
+                        ),
+                        onChanged: (value) {
+                          contactName = value;
+                        }),
                   ),
                   GestureDetector(
                       onTap: () async {
-                        print(name.text);
-                        print(number.text);
                         if (await Permission.contacts.request().isGranted) {
                           Contact contact =
                               await _contactPicker.selectContact();
@@ -95,44 +103,6 @@ class _AddDriverAlertDialogState extends State<AddDriverAlertDialog> {
                 ],
               ),
             ),
-            //   ],),
-            // child: ListTile(
-            //   title: Padding(
-            //     padding: EdgeInsets.only(
-            //       left: space_2 - 2,
-            //       right: space_2 - 2,
-            //     ),
-            //     child: TextField(
-            //       controller: name,
-            //       decoration: InputDecoration(
-            //         hintText: contactName != "" ? contactName : "",
-            //         hintStyle:
-            //             TextStyle(color: black, fontWeight: mediumBoldWeight),
-            //         border: InputBorder.none,
-            //       ),
-            //     ),
-            //   ),
-            //   trailing: GestureDetector(
-            //       onTap: () async {
-            //         print(name.text);
-            //         print(number.text);
-            //         if (await Permission.contacts.request().isGranted) {
-            //           Contact contact = await _contactPicker.selectContact();
-            //           setState(() {
-            //             _contact = contact;
-            //             contactName = _contact!.fullName.toString();
-            //             contactNumber = _contact!.phoneNumber.number.toString();
-            //             displayContact = contactName! + " - " + contactNumber!;
-            //           });
-            //         }
-            //       },
-            //       child: Image(
-            //         image: AssetImage("assets/icons/addFromPhoneBookIcon.png"),
-            //         height: space_5+2,
-            //         width: space_5+2,
-            //       )),
-            //   isThreeLine: false,
-            // ),
           ),
           SizedBox(
             height: space_2 + 2,
@@ -156,13 +126,16 @@ class _AddDriverAlertDialogState extends State<AddDriverAlertDialog> {
                 right: space_2 - 2,
               ),
               child: TextField(
-                controller: number,
+                // controller: number,
                 decoration: InputDecoration(
-                  hintText: contactNumber != "" ? contactNumber : "Type here",
+                  hintText: contactNumber == "" ? "Type here" : contactNumber,
                   hintStyle:
                       TextStyle(color: black, fontWeight: mediumBoldWeight),
                   border: InputBorder.none,
                 ),
+                onChanged: (numberValue) {
+                  contactNumber = numberValue;
+                },
               ),
             ),
           ),
@@ -175,10 +148,10 @@ class _AddDriverAlertDialogState extends State<AddDriverAlertDialog> {
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
               AddButton(
-                  displayContact: displayContact,
-                  name: name.text,
-                  number: number.text,
-              selectedTruckId: widget.selectedTruckId,),
+                displayContact: displayContact,
+                selectedTruckId: widget.selectedTruckId,
+                onTap: addDriverFunction,
+              ),
               CancelButton()
             ],
           ),
@@ -189,5 +162,23 @@ class _AddDriverAlertDialogState extends State<AddDriverAlertDialog> {
       ),
       insetPadding: EdgeInsets.only(left: space_4, right: space_4),
     );
+  }
+  addDriverFunction(){
+
+    var transporterId = '${tIdController.transporterId}';
+    if (displayContact.isEmpty == true || displayContact == "") {
+      driverApiCalls.postDriverApi(
+          contactName,contactNumber , transporterId, widget.selectedTruckId);
+      displayContact="$contactName - $contactNumber";
+    } else {
+      List listDisplayContact = displayContact.split("-");
+      contactName = listDisplayContact[0];
+      contactNumber = displayContact.replaceAll(new RegExp(r"\D"), "");
+      driverApiCalls.postDriverApi(
+          contactName,contactNumber , transporterId, widget.selectedTruckId);
+      displayContact="$contactName - $contactNumber";
+    }
+    Provider.of<ProviderData>(context, listen: false).updateDriverNameList(newValue: displayContact);
+
   }
 }

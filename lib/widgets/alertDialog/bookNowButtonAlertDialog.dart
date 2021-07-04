@@ -139,10 +139,11 @@ class _BookNowButtonAlertDialogState extends State<BookNowButtonAlertDialog> {
                     if (newValue == "Add New Driver") {
                       showDialog(
                           context: context,
-                          builder: (context) => AddDriverAlertDialog(selectedTruckId: selectedTruckId,));
+                          builder: (context) => AddDriverAlertDialog(
+                                selectedTruckId: selectedTruckId,
+                              ));
                     } else {
-                      providerData.updateDropDownValue2(
-                          newValue: newValue.toString());
+                      providerData.updateDropDownValue2(newValue);
                     }
                     searchingDetailsFromDriverId();
                   },
@@ -189,6 +190,7 @@ class _BookNowButtonAlertDialogState extends State<BookNowButtonAlertDialog> {
   }
 
   searchingDetailsFromTruckNo() async {
+    var providerData = Provider.of<ProviderData>(context, listen: false);
     final truckList = widget.truckDetailsList;
     for (TruckModel item in truckList) {
       if (Provider.of<ProviderData>(context, listen: false)
@@ -198,9 +200,14 @@ class _BookNowButtonAlertDialogState extends State<BookNowButtonAlertDialog> {
           0) {
         selectedTruckId = item.truckId.toString();
         selectedTransporterId = item.transporterId.toString();
-        selectedDriverId = item.driverId.toString();
-        tempDropDownValue2 =
-            await getDriverNameFromDriverApi(context, item.driverId.toString());
+        selectedDriverId =
+            item.driverId == null ? "" : item.driverId.toString();
+        if (item.driverId == null) {
+          providerData.updateDropDownValue2(null);
+        } else {
+          tempDropDownValue2 = await getDriverNameFromDriverApi(
+              context, item.driverId.toString());
+        }
         break;
       }
     }

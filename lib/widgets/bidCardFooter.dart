@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:liveasy/models/bidsModel.dart';
-import 'package:liveasy/models/loadApiModel.dart';
 import 'package:liveasy/models/loadDetailsScreenModel.dart';
 import 'package:liveasy/widgets/buttons/confirmOrderButton.dart';
 

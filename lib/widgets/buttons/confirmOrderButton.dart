@@ -7,7 +7,6 @@ import 'package:liveasy/constants/spaces.dart';
 import 'package:liveasy/functions/getDriverDetailsFromDriverApi.dart';
 import 'package:liveasy/functions/getTruckDetailsFromTruckApi.dart';
 import 'package:liveasy/models/bidsModel.dart';
-import 'package:liveasy/models/loadApiModel.dart';
 import 'package:liveasy/models/loadDetailsScreenModel.dart';
 import 'package:liveasy/widgets/alertDialog/bookNowButtonAlertDialog.dart';
 

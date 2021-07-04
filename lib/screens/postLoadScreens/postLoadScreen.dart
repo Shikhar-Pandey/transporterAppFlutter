@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/spaces.dart';
 import 'package:liveasy/providerClass/providerData.dart';
-import 'package:liveasy/screens/TransporterOrders/OnGoingScreenOrders/onGoingCardOrder.dart';
 import 'package:liveasy/screens/myLoadPages/deliveredScreen.dart';
 
 import 'package:liveasy/screens/myLoadPages/myLoadsScreen.dart';

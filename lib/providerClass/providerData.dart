@@ -4,6 +4,18 @@ import 'package:flutter/material.dart';
 
 class ProviderData extends ChangeNotifier {
 
+  var manualDriverName;
+  var manualDriverNumber;
+  void updateManualDriverName( newValue) {
+
+    manualDriverName = newValue;
+    notifyListeners();
+  }
+  void updateManualDriverNumber(newValue) {
+    manualDriverNumber = newValue;
+    notifyListeners();
+  }
+
   var bidButtonSendRequestState = "false";
 
   void updateBidButtonSendRequest({required String newValue}) {
@@ -61,7 +73,7 @@ class ProviderData extends ChangeNotifier {
     notifyListeners();
   }
 
-  void updateDropDownValue2({required String? newValue}) {
+  void updateDropDownValue2(newValue) {
     dropDownValue2 = newValue;
     notifyListeners();
   }

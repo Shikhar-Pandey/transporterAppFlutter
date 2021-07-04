@@ -4,10 +4,8 @@ import 'package:liveasy/constants/fontSize.dart';
 import 'package:liveasy/constants/fontWeights.dart';
 import 'package:liveasy/constants/radius.dart';
 import 'package:liveasy/constants/spaces.dart';
-import 'package:liveasy/functions/getLoadDetailsFromLoadId.dart';
 import 'package:liveasy/functions/postBookingApi.dart';
 import 'package:liveasy/models/bidsModel.dart';
-import 'package:liveasy/models/loadApiModel.dart';
 import 'package:liveasy/models/loadDetailsScreenModel.dart';
 import 'package:liveasy/providerClass/providerData.dart';
 import 'package:provider/provider.dart';
@@ -61,7 +59,7 @@ class _ConfirmButtonSendRequestState extends State<ConfirmButtonSendRequest> {
           print("Booking by bid");
         }
         providerData.updateDropDownValue1(newValue: null);
-        providerData.updateDropDownValue2(newValue: null);
+        providerData.updateDropDownValue2(null);
         Navigator.of(context).pop();
       },
       child: Container(

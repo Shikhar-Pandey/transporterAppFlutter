@@ -3,8 +3,6 @@ import 'package:liveasy/constants/color.dart';
 import 'package:liveasy/constants/fontSize.dart';
 import 'package:liveasy/constants/fontWeights.dart';
 import 'package:liveasy/constants/spaces.dart';
-import 'package:liveasy/screens/TransporterOrders/OrderApi/bookingApiCallsOrders.dart';
-import 'package:liveasy/widgets/alertDialog/ProductTypeEnterAlertDialog.dart';
 import 'package:liveasy/screens/TransporterOrders/ordersAlertDialog/completedOrdersAlertDialog.dart';
 
 class CompletedButtonOrders extends StatelessWidget {

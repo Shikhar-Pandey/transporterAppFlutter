@@ -31,16 +31,17 @@ class _FindLoadScreenState extends State<FindLoadScreen> {
 
   @override
   Widget build(BuildContext context) {
+    // print(transporterIdController.transporterId);
     var providerData = Provider.of<ProviderData>(context, listen: false);
-    if (Provider.of<ProviderData>(context).loadingPointCityFindLoad != "") {
-      print(transporterIdController.transporterId);
-      controller1 = TextEditingController(
-          text:
-              ("${providerData.loadingPointCityFindLoad} (${providerData.loadingPointStateFindLoad})"));
-      findLoadApiData = runFindLoadApiGet(providerData.loadingPointCityFindLoad,
-          providerData.unloadingPointCityFindLoad);
-          //findLoadApiData = runFindLoadApiGet("delhi", "");
-    }
+    // if (Provider.of<ProviderData>(context).loadingPointCityFindLoad != "") {
+    //   print(transporterIdController.transporterId);
+    //   controller1 = TextEditingController(
+    //       text:
+    //           ("${providerData.loadingPointCityFindLoad} (${providerData.loadingPointStateFindLoad})"));
+    //   findLoadApiData = runFindLoadApiGet(providerData.loadingPointCityFindLoad,
+    //       providerData.unloadingPointCityFindLoad);
+          findLoadApiData = runFindLoadApiGet("delhi", "");
+    // }
     if (Provider.of<ProviderData>(context).unloadingPointCityFindLoad != "") {
       controller2 = TextEditingController(
           text:

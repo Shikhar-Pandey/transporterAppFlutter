@@ -13,7 +13,7 @@ class CancelButton extends StatelessWidget {
     return GestureDetector(
       onTap: () {
         providerData.updateDropDownValue1(newValue: null);
-        providerData.updateDropDownValue2(newValue: null);
+        providerData.updateDropDownValue2(null);
         Navigator.of(context).pop();
       },
       child: Container(
